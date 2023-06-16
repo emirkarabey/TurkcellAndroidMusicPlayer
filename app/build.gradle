@@ -1,20 +1,29 @@
+import com.emirk.turkcellandroidmusicplayer.Libs
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
     namespace 'com.emirk.turkcellandroidmusicplayer'
-    compileSdk 33
+    compileSdk Config.compileSdk
 
     defaultConfig {
-        applicationId "com.emirk.turkcellandroidmusicplayer"
-        minSdk 26
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId Config.applicationId
+        minSdk Config.minSdk
+        targetSdk Config.targetSdk
+        versionCode Config.versionCode
+        versionName Config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        buildConfigField "String", "NEWS_API_KEY", "\"${properties.getProperty("NEWS_API_KEY")}\""
     }
 
     buildTypes {
@@ -32,21 +41,45 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20'
+    implementation Libs.AndroidX.core
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.Google.material
+    implementation Libs.AndroidX.constraintLayout
+    implementation Libs.AndroidX.navigation
+    implementation Libs.AndroidX.navigationUI
+    testImplementation Libs.Test.junit
+    androidTestImplementation Libs.Test.testExt
+    androidTestImplementation Libs.Test.espresso
+
+    // Lifecycle
+    implementation Libs.AndroidX.extensions
+    implementation Libs.AndroidX.runtime
+    implementation Libs.AndroidX.vmLifeCycle
+    implementation Libs.AndroidX.livedata
+
+    // Retrofit
+    implementation Libs.Network.gson
+    implementation Libs.Network.retrofit
+    implementation Libs.Network.converter
+    implementation Libs.Network.okhttp
+    implementation Libs.Network.interceptor
+
+    // Room
+    implementation Libs.Room.ktx
+    implementation Libs.Room.runtime
+    kapt Libs.Room.compiler
+
+    // Hilt
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.compiler
+
+    // Glide
+    implementation Libs.Image.glide
+    annotationProcessor Libs.Image.compiler
 }
