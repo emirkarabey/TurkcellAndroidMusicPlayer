@@ -1,5 +1,6 @@
-package com.emirk.turkcellandroidmusicplayer.presentation.favorite
+package com.emirk.turkcellandroidmusicplayer.presentation.music_detail
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.emirk.turkcellandroidmusicplayer.common.Resource
@@ -7,7 +8,6 @@ import com.emirk.turkcellandroidmusicplayer.data.local.MusicEntity
 import com.emirk.turkcellandroidmusicplayer.domain.use_cases.AddFavoriteUseCase
 import com.emirk.turkcellandroidmusicplayer.domain.use_cases.DeleteFavoriteUseCase
 import com.emirk.turkcellandroidmusicplayer.domain.use_cases.GetFavoritesUseCase
-import com.emirk.turkcellandroidmusicplayer.presentation.music_detail.MusicDetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteViewModel @Inject constructor(
+class MusicDetailViewModel @Inject constructor(
     private val addFavoriteUseCase: AddFavoriteUseCase,
     private val getFavoriteUseCase: GetFavoritesUseCase,
     private val deleteFavoriteUseCase: DeleteFavoriteUseCase
@@ -26,7 +26,7 @@ class FavoriteViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(MusicDetailUiState())
     val uiState: StateFlow<MusicDetailUiState> = _uiState.asStateFlow()
-
+    val favoriteLiveData: MutableLiveData<List<MusicEntity>> = MutableLiveData()
     fun addFavorite(musicEntity: MusicEntity) = viewModelScope.launch {
         addFavoriteUseCase.invoke(music = musicEntity)
     }
@@ -53,7 +53,7 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
-    fun deleteFavorite(title: String) = viewModelScope.launch{
+    fun deleteFavorite(title: String) = viewModelScope.launch {
         deleteFavoriteUseCase.invoke(title = title)
     }
 }

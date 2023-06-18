@@ -9,12 +9,32 @@
         android:id="@+id/navigation_home"
         android:name="com.emirk.turkcellandroidmusicplayer.presentation.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.emirk.turkcellandroidmusicplayer.presentation.favorite.FavoriteFragment"
         android:label="@string/title_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_navigation_favorite_to_musicDetailFragment"
+            app:destination="@id/musicDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicDetailFragment"
+        android:name="com.emirk.turkcellandroidmusicplayer.presentation.music_detail.MusicDetailFragment"
+        android:label="fragment_music_detail"
+        tools:layout="@layout/fragment_music_detail" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
