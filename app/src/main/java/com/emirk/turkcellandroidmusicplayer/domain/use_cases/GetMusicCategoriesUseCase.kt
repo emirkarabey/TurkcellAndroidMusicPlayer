@@ -1,6 +1,5 @@
 package com.emirk.turkcellandroidmusicplayer.domain.use_cases
 
-import android.util.Log
 import com.emirk.turkcellandroidmusicplayer.common.Resource
 import com.emirk.turkcellandroidmusicplayer.domain.repository.MusicCategoriesRepository
 import com.emirk.turkcellandroidmusicplayer.domain.ui_model.MusicCategory
@@ -16,10 +15,8 @@ class GetMusicCategoriesUseCase @Inject constructor(
     operator fun invoke(
     ): Flow<Resource<List<MusicCategory>>> = flow {
         try {
-            Log.v("HomeFragment", "use case try")
             emit(Resource.Loading())
             val categories = repository.getMusicCategories()
-            Log.v("HomeFragment", categories[0].baseTitle)
             emit(Resource.Success(data = categories))
         } catch (e: IOException) {
             emit(Resource.Error(message = e.localizedMessage))
